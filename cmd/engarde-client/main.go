@@ -21,6 +21,7 @@ type clientConfig struct {
 	ListenAddr         string        `yaml:"listenAddr"`
 	DstAddr            string        `yaml:"dstAddr"`
 	WriteTimeout       time.Duration `yaml:"writeTimeout"`
+	IncludedInterfaces []string      `yaml:"includedInterfaces"`
 	ExcludedInterfaces []string      `yaml:"excludedInterfaces"`
 	DstOverrides       []dstOverride `yaml:"dstOverrides"`
 	WebManager         struct {
@@ -65,6 +66,16 @@ func isSwapped(name string) bool {
 }
 
 func isExcluded(name string) bool {
+	if len(clConfig.IncludedInterfaces) > 0 {
+		for _, ifname := range clConfig.IncludedInterfaces {
+			if ifname == name {
+				return False
+			}
+		}
+
+		return True
+	}
+	
 	for _, ifname := range clConfig.ExcludedInterfaces {
 		if ifname == name {
 			return !isSwapped(name)
