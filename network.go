@@ -1,4 +1,4 @@
-package main
+package engarde
 
 import (
 	"net"
@@ -56,27 +56,30 @@ func receiveFromClient(socket, wgSocket *net.UDPConn, wgAddr *net.UDPAddr) {
 			continue
 		}
 
-		// Check if client exists
-		currentTime = time.Now().Unix()
-		srcAddrS = srcAddr.IP.String() + ":" + strconv.Itoa(srcAddr.Port)
-		clientsMutex.RLock()
-		client, exists = clients[srcAddrS]
-		clientsMutex.RUnlock()
-		if exists {
-			client.Last = currentTime
-		} else {
-			log.Info("New client connected: '" + srcAddrS + "'")
-			newClient := ConnectedClient{
-				Addr: srcAddr,
-				Last: currentTime,
-			}
-			clientsMutex.Lock()
-			clients[srcAddrS] = &newClient
-			clientsMutex.Unlock()
-		}
 		_, err = wgSocket.WriteToUDP(buffer[:n], wgAddr)
 		if err != nil {
 			log.Warn("Error writing to WireGuard")
 		}
+
+		go func() {
+			// Check if client exists
+			currentTime = time.Now().Unix()
+			srcAddrS = srcAddr.IP.String() + ":" + strconv.Itoa(srcAddr.Port)
+			clientsMutex.RLock()
+			client, exists = clients[srcAddrS]
+			clientsMutex.RUnlock()
+			if exists {
+				client.Last = currentTime
+			} else {
+				log.Info("New client connected: '" + srcAddrS + "'")
+				newClient := ConnectedClient{
+					Addr: srcAddr,
+					Last: currentTime,
+				}
+				clientsMutex.Lock()
+				clients[srcAddrS] = &newClient
+				clientsMutex.Unlock()
+			}
+		}()
 	}
 }

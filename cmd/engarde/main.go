@@ -2,6 +2,8 @@ package main
 
 import (
 	"os"
+
+	"github.com/kamushadenes/engarde/v2"
 )
 
 // Version is passed by the compiler
@@ -34,10 +36,10 @@ func main() {
 
 	switch os.Args[1] {
 	case "server":
-		server(configName)
+		engarde.RunServer(configName)
 	case "client":
-		client(configName)
+		engarde.RunClient(configName)
 	case "list-interfaces":
-		listInterfaces()
+		engarde.ListInterfaces()
 	}
 }

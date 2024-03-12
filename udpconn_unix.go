@@ -1,6 +1,6 @@
 //go:build !windows && !darwin
 
-package main
+package engarde
 
 import (
 	"fmt"

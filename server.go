@@ -1,4 +1,4 @@
-package main
+package engarde
 
 import (
 	"net"
@@ -10,7 +10,7 @@ import (
 var clients map[string]*ConnectedClient
 var clientsMutex *sync.RWMutex
 
-func server(configName string) {
+func RunServer(configName string) {
 	parseConfig(Server, configName)
 
 	clients = make(map[string]*ConnectedClient)

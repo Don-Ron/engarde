@@ -1,4 +1,4 @@
-package main
+package engarde
 
 import (
 	"net"
@@ -10,7 +10,7 @@ import (
 var sendingChannels = make(map[string]*sendingRoutine)
 var sendingChannelsMutex = &sync.RWMutex{}
 
-func client(configName string) {
+func RunClient(configName string) {
 	parseConfig(Client, configName)
 
 	var wireguardAddr *net.UDPAddr

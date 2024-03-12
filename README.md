@@ -1,8 +1,6 @@
 # engarde - Don't lose that packet!
 
-[![Build Status](https://travis-ci.org/porech/engarde.svg?branch=master)](https://travis-ci.org/porech/engarde)
-
-[Official Facebook page](https://www.facebook.com/engarde-Dont-lose-that-packet-110039227317920)
+_Forked from [porech/engarde](https://github.com/porech/engarde)_
 
 ## What is engarde?
 engarde is a network utility specifically designed to create a point-to-point tunnel over multiple network (typically Internet) connections, ensuring that the tunnel stays up and healty without a single delay or package loss, as long as at least one of the connections is working.
@@ -20,23 +18,7 @@ In some way, engarde is similar to a failover mechanism, but it doesn't switch t
 Absolutely yes. The used bandwidth is the one you would normally use multiplied by the number of the connections you have. But hey, imagine you are transmitting real time audio to a national radio station: would you really prefer that a connection failure causes some moments of silence to the listeners, or would you happily waste your bandwidth to avoid it?
 
 ## How do I get it?
-You can find the latest builds here (thanks to linuxzogno.org for hosting them):
-
-### Server
-|                   | i386     | amd64    | arm    |
-| ----------------- | -------- | -------- | -------- |
-| *Linux*           | [Download](https://engarde.linuxzogno.org/builds/master/linux/i386/engarde-server) | [Download](https://engarde.linuxzogno.org/builds/master/linux/amd64/engarde-server) | [Download](https://engarde.linuxzogno.org/builds/master/linux/arm/engarde-server) |
-| *Windows*         | [Download](https://engarde.linuxzogno.org/builds/master/windows/i386/engarde-server.exe) | [Download](https://engarde.linuxzogno.org/builds/master/windows/amd64/engarde-server.exe) |  |
-| *Darwin (Mac OS)* | [Download](https://engarde.linuxzogno.org/builds/master/darwin/i386/engarde-server) | [Download](https://engarde.linuxzogno.org/builds/master/darwin/amd64/engarde-server) |  |
-
-### Client
-|                   | i386     | amd64    | arm    |
-| ----------------- | -------- | -------- | -------- |
-| *Linux*           | [Download](https://engarde.linuxzogno.org/builds/master/linux/i386/engarde-client) | [Download](https://engarde.linuxzogno.org/builds/master/linux/amd64/engarde-client) | [Download](https://engarde.linuxzogno.org/builds/master/linux/arm/engarde-client) |
-| *Windows*         | [Download](https://engarde.linuxzogno.org/builds/master/windows/i386/engarde-client.exe) | [Download](https://engarde.linuxzogno.org/builds/master/windows/amd64/engarde-client.exe) |  |
-| *Darwin (Mac OS)* | [Download](https://engarde.linuxzogno.org/builds/master/darwin/i386/engarde-client) | [Download](https://engarde.linuxzogno.org/builds/master/darwin/amd64/engarde-client) |  |
-
-If you prefer, or if you need another architecture, you can always compile from source. Some more documentation about this will be available soon, but it shouldn't be too hard if you know a little about Golang.
+You can find the latest builds on the [releases](https://github.com/kamushadenes/engarde/releases) page, or you can compile it from source.
 
 ## How do I use it?
 
@@ -118,9 +100,6 @@ After doing this, you'll be able to run engarde-client as a normal user.
 
 ## Can I ask for help?
 Of course! Feel free to open an issue for any necessity ;)
-
-## I love it, can I offer you a coffee?
-Wow, thanks! You can drop some Bitcoin to 39fBEZvKvxf2aZUBWWV1PuoKwCUvk6VWLg
 
 ## License
 

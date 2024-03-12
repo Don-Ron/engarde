@@ -1,6 +1,6 @@
-//go:build darwin
+//go:build windows
 
-package main
+package engarde
 
 import (
 	"net"

@@ -1,4 +1,4 @@
-package main
+package engarde
 
 import (
 	"net"
@@ -40,7 +40,7 @@ func getDstByIfname(ifname string) string {
 	return parsedConfig.Client.DstAddr
 }
 
-func listInterfaces() {
+func ListInterfaces() {
 	interfaces, err := net.Interfaces()
 	handleErr(err, "listInterfaces 1")
 	for _, iface := range interfaces {
