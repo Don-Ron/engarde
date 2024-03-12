@@ -22,11 +22,6 @@ type serverConfig struct {
 	DstAddr       string        `yaml:"dstAddr"`
 	WriteTimeout  time.Duration `yaml:"writeTimeout"`
 	ClientTimeout int64         `yaml:"clientTimeout"`
-	WebManager    struct {
-		ListenAddr string `yaml:"listenAddr"`
-		Username   string `yaml:"username"`
-		Password   string `yaml:"password"`
-	} `yaml:"webManager"`
 }
 
 // ConnectedClient contains the information about a client
@@ -118,9 +113,6 @@ func main() {
 	handleErr(err, "Cannot create listen socket")
 	log.Info("Listening on " + srConfig.ListenAddr)
 
-	if srConfig.WebManager.ListenAddr != "" {
-		go webserver(srConfig.WebManager.ListenAddr, srConfig.WebManager.Username, srConfig.WebManager.Password)
-	}
 	go receiveFromWireguard(WireguardSocket, ClientSocket)
 	receiveFromClient(ClientSocket, WireguardSocket, WireguardAddr)
 }

@@ -24,11 +24,6 @@ type clientConfig struct {
 	IncludedInterfaces []string      `yaml:"includedInterfaces"`
 	ExcludedInterfaces []string      `yaml:"excludedInterfaces"`
 	DstOverrides       []dstOverride `yaml:"dstOverrides"`
-	WebManager         struct {
-		ListenAddr string `yaml:"listenAddr"`
-		Username   string `yaml:"username"`
-		Password   string `yaml:"password"`
-	} `yaml:"webManager"`
 }
 
 type dstOverride struct {
@@ -69,13 +64,13 @@ func isExcluded(name string) bool {
 	if len(clConfig.IncludedInterfaces) > 0 {
 		for _, ifname := range clConfig.IncludedInterfaces {
 			if ifname == name {
-				return False
+				return false
 			}
 		}
 
-		return True
+		return true
 	}
-	
+
 	for _, ifname := range clConfig.ExcludedInterfaces {
 		if ifname == name {
 			return !isSwapped(name)
@@ -367,9 +362,6 @@ func main() {
 	handleErr(err, "main 2")
 	log.Info("Listening on " + clConfig.ListenAddr)
 
-	if clConfig.WebManager.ListenAddr != "" {
-		go webserver(clConfig.WebManager.ListenAddr, clConfig.WebManager.Username, clConfig.WebManager.Password)
-	}
 	go updateAvailableInterfaces(WireguardSocket, ptrWireguardAddr)
 	receiveFromWireguard(WireguardSocket, ptrWireguardAddr)
 }

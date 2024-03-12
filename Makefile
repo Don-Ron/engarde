@@ -41,19 +41,6 @@ server-darwin-amd64:
 server-darwin-arm64:
 	GOOS=darwin GOARCH=arm64 ./build-scripts/build.sh server
 
-# Packr
-packr-client:
-	cd cmd/engarde-client && packr2
-packr-server:
-	cd cmd/engarde-server && packr2
-packr-clean-client:
-	cd cmd/engarde-client && packr2 clean
-packr-clean-server:
-	cd cmd/engarde-server && packr2 clean
-
-packr: packr-client packr-server
-packr-clean: packr-clean-client packr-clean-server
-
 # Platform-specific builds
 linux-i386: client-linux-i386 server-linux-i386
 linux-amd64: client-linux-amd64 server-linux-amd64
