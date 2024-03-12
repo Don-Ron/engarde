@@ -1,6 +1,7 @@
 package engarde
 
 import (
+	"io"
 	"net"
 	"time"
 
@@ -11,21 +12,37 @@ func wgWriteBack(ifname string, routine *sendingRoutine, wgSock *net.UDPConn, wg
 	buffer := make([]byte, parsedConfig.Client.MTU)
 	var n int
 	var err error
+
+	w := NewUDPSocketWriter(wgSock, *wgAddr)
+	tr := io.TeeReader(routine.SrcSock, w)
+
 	for {
-		n, _, err = routine.SrcSock.ReadFromUDP(buffer)
+		if parsedConfig.Client.UseTeeReader {
+			_, err = tr.Read(buffer)
+			if err != nil {
+				log.Warn("Error reading from '" + ifname + "', re-creating socket")
+				terminateRoutine(routine, ifname, true)
+				return
+			}
+		} else {
+			n, _, err = routine.SrcSock.ReadFromUDP(buffer)
+			if err != nil {
+				log.Warn("Error reading from '" + ifname + "', re-creating socket")
+				terminateRoutine(routine, ifname, true)
+				return
+			}
+
+			_, err = wgSock.WriteToUDP(buffer[:n], *wgAddr)
+			if err != nil {
+				log.Warn("Error writing to WireGuard")
+			}
+		}
+
 		if routine.IsClosing {
 			return
 		}
-		if err != nil {
-			log.Warn("Error reading from '" + ifname + "', re-creating socket")
-			terminateRoutine(routine, ifname, true)
-			return
-		}
+
 		routine.LastRec = time.Now().Unix()
-		_, err = wgSock.WriteToUDP(buffer[:n], *wgAddr)
-		if err != nil {
-			log.Warn("Error writing to WireGuard")
-		}
 	}
 }
 

@@ -27,6 +27,7 @@ type clientConfig struct {
 	ExcludedInterfaces []string      `yaml:"excludedInterfaces"`
 	DstOverrides       []dstOverride `yaml:"dstOverrides"`
 	MTU                int           `yaml:"mtu"`
+	UseTeeReader       bool          `yaml:"useTeeReader"`
 }
 
 type serverConfig struct {
