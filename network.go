@@ -1,6 +1,7 @@
 package engarde
 
 import (
+	"io"
 	"net"
 	"strconv"
 	"time"
@@ -49,7 +50,19 @@ func receiveFromClient(socket, wgSocket *net.UDPConn, wgAddr *net.UDPAddr) {
 	var client *ConnectedClient
 	var exists bool
 	var err error
+
+	w := NewUDPSocketWriter(wgSocket, wgAddr)
+	tr := io.TeeReader(socket, w)
+
 	for {
+		if parsedConfig.Server.UseTeeReader {
+			_, err = tr.Read(buffer)
+			if err != nil {
+				log.Warn("Error reading from client")
+			}
+			continue
+		}
+
 		n, srcAddr, err = socket.ReadFromUDP(buffer)
 		if err != nil {
 			log.Warn("Error reading from client")
@@ -74,7 +87,7 @@ func receiveFromClient(socket, wgSocket *net.UDPConn, wgAddr *net.UDPAddr) {
 			clients[srcAddrS] = &newClient
 			clientsMutex.Unlock()
 		}
-		
+
 		_, err = wgSocket.WriteToUDP(buffer[:n], wgAddr)
 		if err != nil {
 			log.Warn("Error writing to WireGuard")

@@ -36,6 +36,7 @@ type serverConfig struct {
 	WriteTimeout  time.Duration `yaml:"writeTimeout"`
 	ClientTimeout int64         `yaml:"clientTimeout"`
 	MTU           int           `yaml:"mtu"`
+	UseTeeReader  bool          `yaml:"useTeeReader"`
 }
 
 type dstOverride struct {
